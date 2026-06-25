@@ -104,34 +104,69 @@ def send_email(papers: List[Dict], subscribers: List[str] = None) -> bool:
         return False
 
     today = datetime.now(timezone(timedelta(hours=8))).strftime("%Y-%m-%d")
+    weekday = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"][
+        datetime.now(timezone(timedelta(hours=8))).weekday()
+    ]
 
-    # 构建 HTML 邮件
+    # 构建 HTML 邮件（含暗模式适配）
     html_parts = [
-        "<div style='font-family:sans-serif;max-width:700px;margin:0 auto;'>",
-        f"<h2 style='color:#1a73e8;'>📄 Paper Discovery - {today}</h2>",
-        "<p>今日精选论文：</p>",
+        "<!DOCTYPE html>",
+        "<html>",
+        "<head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"></head>",
+        "<body style=\"margin:0;padding:0;background:#f5f5f5;\">",
+        "<div class=\"wrapper\" style=\"font-family:Arial,Helvetica,sans-serif;max-width:680px;margin:0 auto;padding:24px;background:#ffffff;\">",
+        # Header
+        "<div class=\"header\" style=\"background:#1a73e8;color:#ffffff;padding:20px 24px;border-radius:8px 8px 0 0;\">",
+        f"<h2 style=\"margin:0;font-size:20px;color:#ffffff;\">📄 Paper Discovery</h2>",
+        f"<p style=\"margin:4px 0 0;font-size:14px;color:rgba(255,255,255,0.85);\">{today}（{weekday}）</p>",
+        "</div>",
+        # Body
+        "<div class=\"content\" style=\"padding:20px 24px;border:1px solid #e0e0e0;border-top:none;border-radius:0 0 8px 8px;\">",
+        "<p class=\"section-title\" style=\"margin:0 0 16px;font-size:15px;font-weight:bold;color:#1a1a1a;\">今日精选论文：</p>",
     ]
 
     for i, p in enumerate(papers, 1):
-        code_html = ' <span style="background:#e8f5e9;padding:2px 6px;border-radius:3px;font-size:12px;">📦有代码</span>' if p.get("has_code") else ""
+        code_html = ' <span style=\"background:#e8f5e9;color:#2e7d32;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:bold;\">📦 Code</span>' if p.get("has_code") else ""
 
-        html_parts.append(f"<div style='margin:16px 0;padding:12px;border:1px solid #eee;border-radius:8px;'>")
-        html_parts.append(f"<h3 style='margin:0 0 8px;'>{i}. {p['title']}{code_html}</h3>")
-        html_parts.append(f"<p style='color:#666;margin:0 0 8px;'>{p.get('reason', '')}</p>")
+        html_parts.append("<div class=\"card\" style=\"margin:0 0 12px;padding:14px 16px;background:#fafafa;border:1px solid #e8e8e8;border-radius:8px;\">")
+        html_parts.append(f"<h3 class=\"card-title\" style=\"margin:0 0 6px;font-size:15px;line-height:1.4;color:#1a1a1a;\">{i}. {p['title']}{code_html}</h3>")
+        html_parts.append(f"<p class=\"card-reason\" style=\"margin:0 0 8px;font-size:13px;color:#666666;line-height:1.5;\">{p.get('reason', '')}</p>")
 
         links = []
         if p.get("url"):
-            links.append(f'<a href="{p["url"]}">论文</a>')
+            links.append(f'<a href=\"{p["url"]}\" style=\"color:#1a73e8;text-decoration:none;font-size:13px;\">📄 论文</a>')
         if p.get("pdf_url"):
-            links.append(f'<a href="{p["pdf_url"]}">PDF</a>')
+            links.append(f'<a href=\"{p["pdf_url"]}\" style=\"color:#1a73e8;text-decoration:none;font-size:13px;\">📥 PDF</a>')
         if p.get("code_url"):
-            links.append(f'<a href="{p["code_url"]}">代码</a>')
-        html_parts.append(f"<p style='margin:0;'>{' | '.join(links)}</p>")
+            links.append(f'<a href=\"{p["code_url"]}\" style=\"color:#1a73e8;text-decoration:none;font-size:13px;\">💻 代码</a>')
+        html_parts.append(f"<p style=\"margin:0;\">{' | '.join(links)}</p>")
         html_parts.append("</div>")
 
-    html_parts.append("<hr style='border:none;border-top:1px solid #eee;'>")
-    html_parts.append(f"<p style='color:#999;font-size:12px;'>共 {len(papers)} 篇 | Paper Discovery 自动推送</p>")
+    # Footer
+    html_parts.append("<div class=\"footer\" style=\"margin-top:20px;padding-top:16px;border-top:1px solid #e0e0e0;\">")
+    html_parts.append(f"<p class=\"footer-text\" style=\"color:#999999;font-size:12px;margin:0;\">共 {len(papers)} 篇 | Paper Discovery 自动推送</p>")
     html_parts.append("</div>")
+
+    # Dark mode styles
+    html_parts.append(
+        "<style>"
+        "@media (prefers-color-scheme: dark) {"
+        ".wrapper { background:#1a1a1a !important; }"
+        ".header { background:#1565c0 !important; }"
+        ".content { background:#1a1a1a !important; border-color:#333333 !important; }"
+        ".section-title { color:#e0e0e0 !important; }"
+        ".card { background:#222222 !important; border-color:#333333 !important; }"
+        ".card-title { color:#e0e0e0 !important; }"
+        ".card-reason { color:#aaaaaa !important; }"
+        ".footer { border-color:#333333 !important; }"
+        ".footer-text { color:#888888 !important; }"
+        ".link { color:#64b5f6 !important; }"
+        "}"
+        "</style>"
+    )
+
+    html_parts.append("</div>")
+    html_parts.append("</body></html>")
 
     html_content = "\n".join(html_parts)
 

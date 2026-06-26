@@ -1,4 +1,4 @@
-name: Daily Paper Discovery
+name: Daily AI Paper Daily
 
 on:
   schedule:
@@ -24,7 +24,7 @@ jobs:
         run: |
           pip install pyyaml
 
-      - name: Run Paper Discovery
+      - name: Run AI Paper Daily
         env:
           LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
           LLM_BASE_URL: ${{ secrets.LLM_BASE_URL }}
@@ -37,8 +37,8 @@ jobs:
 
       - name: Commit and push
         run: |
-          git config user.name "Paper Discovery Bot"
-          git config user.email "bot@paper-discovery"
+          git config user.name "AI Paper Daily Bot"
+          git config user.email "bot@ai-paper-daily"
           git add -A
           git diff --staged --quiet || git commit -m "📄 Daily discovery $(date +%Y-%m-%d)"
           git push

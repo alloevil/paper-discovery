@@ -1,10 +1,10 @@
-# Contributing to Paper Discovery
+# Contributing to AI Paper Daily
 
 感谢你的关注！以下是参与贡献的指南。
 
 ## 🐛 报告 Bug
 
-使用 [Bug Report 模板](https://github.com/alloevil/paper-discovery/issues/new?template=bug_report.md) 提交，请包含：
+使用 [Bug Report 模板](https://github.com/alloevil/ai-paper-daily/issues/new?template=bug_report.md) 提交，请包含：
 
 - 问题描述
 - 复现步骤
@@ -13,7 +13,7 @@
 
 ## 💡 功能建议
 
-使用 [Feature Request 模板](https://github.com/alloevil/paper-discovery/issues/new?template=feature_request.md) 提交。
+使用 [Feature Request 模板](https://github.com/alloevil/ai-paper-daily/issues/new?template=feature_request.md) 提交。
 
 ## 🔧 提交 PR
 
@@ -66,8 +66,8 @@
 
 ```bash
 # 克隆仓库
-git clone https://github.com/alloevil/paper-discovery.git
-cd paper-discovery
+git clone https://github.com/alloevil/ai-paper-daily.git
+cd ai-paper-daily
 
 # 安装依赖
 pip install pyyaml

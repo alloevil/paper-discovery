@@ -1,1 +1,1 @@
-# Paper Discovery Data
+# AI Paper Daily Data

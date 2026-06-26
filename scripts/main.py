@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Paper Discovery - 每日论文发现与推送"""
+"""AI Paper Daily - 每日论文发现与推送"""
 
 import sys
 import yaml
@@ -27,7 +27,7 @@ def load_config() -> dict:
 
 
 def main():
-    print(f"=== Paper Discovery {datetime.now(timezone(timedelta(hours=8))).strftime('%Y-%m-%d %H:%M')} ===")
+    print(f"=== AI Paper Daily {datetime.now(timezone(timedelta(hours=8))).strftime('%Y-%m-%d %H:%M')} ===")
 
     config = load_config()
     keywords = config.get("keywords", ["LLM agent", "knowledge graph", "RAG"])
@@ -143,14 +143,14 @@ def generate_report(papers: list, date: str):
         lines.append(" | ".join(links))
         lines.append("")
 
-    lines.append(f"\n---\n_由 [Paper Discovery](https://github.com/alloevil/paper-discovery) 自动生成_")
+    lines.append(f"\n---\n_由 [AI Paper Daily](https://github.com/alloevil/ai-paper-daily) 自动生成_")
 
     report_path = docs_dir / f"{date}.md"
     report_path.write_text("\n".join(lines), encoding="utf-8")
 
     # 更新 index.md
     index_path = docs_dir / "index.md"
-    existing = index_path.read_text(encoding="utf-8") if index_path.exists() else "# 📄 Paper Discovery\n\n每日论文发现与推送\n\n## 历史记录\n\n"
+    existing = index_path.read_text(encoding="utf-8") if index_path.exists() else "# 📄 AI Paper Daily\n\n每日论文发现与推送\n\n## 历史记录\n\n"
     # 在历史记录开头插入新条目
     entry = f"- [{date}（{weekday}）]({date}.md) - {len(papers)} 篇论文\n"
     if entry not in existing:

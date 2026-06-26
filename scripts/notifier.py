@@ -47,7 +47,7 @@ def send_feishu(papers: List[Dict], webhook: str = "") -> bool:
         lines.append(f"   {' | '.join(links)}")
         lines.append("")
 
-    lines.append(f"_共 {len(papers)} 篇 | 由 Paper Discovery 自动推送_")
+    lines.append(f"_共 {len(papers)} 篇 | 由 AI Paper Daily 自动推送_")
 
     content = "\n".join(lines)
 
@@ -117,7 +117,7 @@ def send_email(papers: List[Dict], subscribers: List[str] = None) -> bool:
         "<div class=\"wrapper\" style=\"font-family:Arial,Helvetica,sans-serif;max-width:680px;margin:0 auto;padding:24px;background:#ffffff;\">",
         # Header
         "<div class=\"header\" style=\"background:#1a73e8;color:#ffffff;padding:20px 24px;border-radius:8px 8px 0 0;\">",
-        f"<h2 style=\"margin:0;font-size:20px;color:#ffffff;\">📄 Paper Discovery</h2>",
+        f"<h2 style=\"margin:0;font-size:20px;color:#ffffff;\">📄 AI Paper Daily</h2>",
         f"<p style=\"margin:4px 0 0;font-size:14px;color:rgba(255,255,255,0.85);\">{today}（{weekday}）</p>",
         "</div>",
         # Body
@@ -144,7 +144,7 @@ def send_email(papers: List[Dict], subscribers: List[str] = None) -> bool:
 
     # Footer
     html_parts.append("<div class=\"footer\" style=\"margin-top:20px;padding-top:16px;border-top:1px solid #e0e0e0;\">")
-    html_parts.append(f"<p class=\"footer-text\" style=\"color:#999999;font-size:12px;margin:0;\">共 {len(papers)} 篇 | Paper Discovery 自动推送</p>")
+    html_parts.append(f"<p class=\"footer-text\" style=\"color:#999999;font-size:12px;margin:0;\">共 {len(papers)} 篇 | AI Paper Daily 自动推送</p>")
     html_parts.append("</div>")
 
     # Dark mode styles
@@ -172,7 +172,7 @@ def send_email(papers: List[Dict], subscribers: List[str] = None) -> bool:
 
     # 发送邮件
     msg = MIMEMultipart("alternative")
-    msg["Subject"] = f"📄 Paper Discovery - {today}"
+    msg["Subject"] = f"📄 AI Paper Daily - {today}"
     msg["From"] = user
     msg.attach(MIMEText(html_content, "html", "utf-8"))
 

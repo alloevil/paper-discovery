@@ -1,4 +1,31 @@
+# Python
 __pycache__/
-*.pyc
-data/papers.db
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Environment
 .env
+.env.local
+
+# Data
+data/papers.db
+data/*.db-journal
+
+# OS
+.DS_Store
+Thumbs.db
